@@ -1,35 +1,34 @@
 const express = require('express');
 const healthController = require('../controllers/health');
+const authRoutes = require('./auth');
+const deviceRoutes = require('./devices');
+const eventRoutes = require('./events');
+const statsRoutes = require('./stats');
+const realtimeRoutes = require('./realtime');
 
 const router = express.Router();
-// Health endpoint
 
 /**
  * @swagger
  * /:
  *   get:
- *     summary: Health endpoint
+ *     tags: [System]
+ *     summary: Health check
+ *     description: Returns service readiness including database, realtime, and mock generator status.
  *     responses:
  *       200:
- *         description: Service health check passed
+ *         description: Backend health snapshot.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: ok
- *                 message:
- *                   type: string
- *                   example: Service is healthy
- *                 timestamp:
- *                   type: string
- *                   format: date-time
- *                 environment:
- *                   type: string
- *                   example: development
+ *               $ref: '#/components/schemas/HealthResponse'
  */
-router.get('/', healthController.check.bind(healthController));
+router.get('/', healthController.check);
+
+router.use('/api/auth', authRoutes);
+router.use('/api/devices', deviceRoutes);
+router.use('/api/events', eventRoutes);
+router.use('/api/stats', statsRoutes);
+router.use('/api/realtime', realtimeRoutes);
 
 module.exports = router;

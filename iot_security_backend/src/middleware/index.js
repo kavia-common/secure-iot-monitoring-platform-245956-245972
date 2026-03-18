@@ -1,4 +1,9 @@
-// This file will export middleware as the application grows
+const { authenticateRequest, authorizeRoles } = require('./auth');
+const { notFoundHandler, errorHandler } = require('./errorHandler');
+
 module.exports = {
-  // Add your middleware here
+  authenticateRequest,
+  authorizeRoles,
+  notFoundHandler,
+  errorHandler
 };
